@@ -1,0 +1,27 @@
+{
+  "name": "us-cities",
+  "version": "0.0.1",
+  "description": "Build TopoJSON map layers via nationalatlas.gov shape files",
+  "keywords": [
+    "topojson",
+    "geojson",
+    "shapefile",
+    "cities"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/bradoyler/us-cities.git"
+  },
+  "author": {
+    "name": "Brad Oyler",
+    "url": "http://bradoyler.com"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "shapefile": "0.3.1",
+    "topojson": "1.6.26"
+  }
+}
