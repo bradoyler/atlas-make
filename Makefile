@@ -386,3 +386,8 @@ topo/us-cities-projected.json: shp/us/cities-over-150k.shp
 svg/us-cities.svg: topo/us-cities-projected.json
 	mkdir -p $(dir $@)
 	node_modules/.bin/topojson-svg -o $@ $<
+
+cleanup-all: cleanup/shp cleanup/topo cleanup/svg
+
+cleanup/%:
+	rm -rf $(notdir $@)
