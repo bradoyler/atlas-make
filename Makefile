@@ -3,25 +3,14 @@
 
 # DE, ME, VT, WV & WY do not have cities with populations over 100k
 
-# states:
-# al ak az ar ca co ct de dc fl
-# ga hi id il in ia ks ky la me
-# md ma mi mn ms mo mt ne nv nh
-# nj nm ny nc nd oh ok or pa ri
-# sc sd tn tx ut vt va wa wv wi
-# wy
-
 # territories:
 # pr vi as fm gu mh mp pw um
 
-all: topo/us-cities.json svg/us-cities.svg \
-topo/al/cities.json topo/ak/cities.json topo/az/cities.json topo/ar/cities.json topo/ca/cities.json topo/co/cities.json topo/ct/cities.json topo/de/cities.json topo/dc/cities.json topo/fl/cities.json \
-topo/ga/cities.json topo/hi/cities.json topo/id/cities.json topo/il/cities.json topo/in/cities.json topo/ia/cities.json topo/ks/cities.json topo/ky/cities.json topo/la/cities.json topo/me/cities.json \
-topo/md/cities.json topo/ma/cities.json topo/mi/cities.json topo/mn/cities.json topo/ms/cities.json topo/mo/cities.json topo/mt/cities.json topo/ne/cities.json topo/nv/cities.json topo/nh/cities.json \
-topo/nj/cities.json topo/nm/cities.json topo/ny/cities.json topo/nc/cities.json topo/nd/cities.json topo/oh/cities.json topo/ok/cities.json topo/or/cities.json topo/pa/cities.json topo/ri/cities.json \
-topo/sc/cities.json topo/sd/cities.json topo/tn/cities.json topo/tx/cities.json topo/ut/cities.json topo/vt/cities.json topo/va/cities.json topo/wa/cities.json topo/wv/cities.json topo/wi/cities.json \
-topo/wy/cities.json topo/vi/cities.json
+all: topo/us-cities.json svg/us-cities.svg all-states
 
+STATES=al ak az ar ca co ct de dc fl ga hi id il in ia ks ky la me md ma mi mn ms mo mt ne nv nh nj nm ny nc nd oh ok or pa ri sc sd tn tx ut vt va wa wv wi wy
+all-states:
+	for i in ${STATES} ; do make topo/$$i/cities.json ; done
 
 gz/%.tar.gz:
 	mkdir -p $(dir $@)
