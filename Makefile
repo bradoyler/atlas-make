@@ -6,7 +6,7 @@
 # territories:
 # pr vi as fm gu mh mp pw um
 
-all: topo/us-cities.json svg/us-cities.svg all-states
+all: all-states topo/us-cities.json svg/us-cities.svg
 
 STATES=al ak az ar ca co ct de dc fl ga hi id il in ia ks ky la me md ma mi mn ms mo mt ne nv nh nj nm ny nc nd oh ok or pa ri sc sd tn tx ut vt va wa wv wi wy
 all-states:
@@ -29,11 +29,25 @@ shp/us/%.shp:
 	for file in $(basename $@)/*; do chmod 644 $$file; mv $$file $(basename $@).$${file##*.}; done
 	rmdir $(basename $@)
 
+shp/us/cities-over-230k.shp: shp/us/cities.shp
+	mkdir -p $(dir $@)
+	rm -f $@
+	ogr2ogr -f 'ESRI Shapefile' -where "POP_2010 > 230000" $@ $<
+
+shp/us/cities-over-200k.shp: shp/us/cities.shp
+	mkdir -p $(dir $@)
+	rm -f $@
+	ogr2ogr -f 'ESRI Shapefile' -where "POP_2010 > 200000" $@ $<
 
 shp/us/cities-over-150k.shp: shp/us/cities.shp
 	mkdir -p $(dir $@)
 	rm -f $@
 	ogr2ogr -f 'ESRI Shapefile' -where "POP_2010 > 150000" $@ $<
+
+shp/us/cities-over-100k.shp: shp/us/cities.shp
+	mkdir -p $(dir $@)
+	rm -f $@
+	ogr2ogr -f 'ESRI Shapefile' -where "POP_2010 > 100000" $@ $<
 
 shp/us/cities-over-50k.shp: shp/us/cities.shp
 	mkdir -p $(dir $@)
@@ -49,319 +63,320 @@ shp/us/cities.json: shp/us/cities-over-150k.shp
 	@rm -f -- $@ $(basename $@).json
 	ogr2ogr -f 'GeoJSON' $(basename $@).json $<
 
-### each state ###
-shp/al/cities.shp: shp/us/cities-over-150k.shp
+##############################
+### GeoJSON for each state ###
+geo/al/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '01'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '01'" $@ $<
 
-shp/ak/cities.shp: shp/us/cities-over-150k.shp
+geo/ak/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '02'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '02'" $@ $<
 
-shp/az/cities.shp: shp/us/cities-over-150k.shp
+geo/az/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '04'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '04'" $@ $<
 
-shp/ar/cities.shp: shp/us/cities-over-150k.shp
+geo/ar/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '05'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '05'" $@ $<
 
-shp/ca/cities.shp: shp/us/cities-over-150k.shp
+geo/ca/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '06'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '06'" $@ $<
 
-shp/co/cities.shp: shp/us/cities-over-150k.shp
+geo/co/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '08'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '08'" $@ $<
 
-shp/ct/cities.shp: shp/us/cities-over-150k.shp
+geo/ct/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '09'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '09'" $@ $<
 
-shp/de/cities.shp: shp/us/cities-over-50k.shp
+geo/de/cities.json: shp/us/cities-over-50k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '10'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '10'" $@ $<
 
-shp/dc/cities.shp: shp/us/cities-over-150k.shp
+geo/dc/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '11'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '11'" $@ $<
 
-shp/fl/cities.shp: shp/us/cities-over-150k.shp
+geo/fl/cities.json: shp/us/cities-over-230k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '12'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '12'" $@ $<
 
-shp/ga/cities.shp: shp/us/cities-over-150k.shp
+geo/ga/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '13'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '13'" $@ $<
 
-shp/hi/cities.shp: shp/us/cities-over-150k.shp
+geo/hi/cities.json: shp/us/cities-over-50k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '15'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '15'" $@ $<
 
-shp/id/cities.shp: shp/us/cities-over-150k.shp
+geo/id/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '16'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '16'" $@ $<
 
-shp/il/cities.shp: shp/us/cities-over-150k.shp
+geo/il/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '17'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '17'" $@ $<
 
-shp/in/cities.shp: shp/us/cities-over-150k.shp
+geo/in/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '18'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '18'" $@ $<
 
-shp/ia/cities.shp: shp/us/cities-over-150k.shp
+geo/ia/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '19'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '19'" $@ $<
 
-shp/ks/cities.shp: shp/us/cities-over-150k.shp
+geo/ks/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '20'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '20'" $@ $<
 
-shp/ky/cities.shp: shp/us/cities-over-150k.shp
+geo/ky/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '21'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '21'" $@ $<
 
-shp/la/cities.shp: shp/us/cities-over-150k.shp
+geo/la/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '22'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '22'" $@ $<
 
-shp/me/cities.shp: shp/us/cities-over-50k.shp
+geo/me/cities.json: shp/us/cities-over-50k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '23'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '23'" $@ $<
 
-shp/md/cities.shp: shp/us/cities-over-150k.shp
+geo/md/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '24'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '24'" $@ $<
 
-shp/ma/cities.shp: shp/us/cities-over-150k.shp
+geo/ma/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '25'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '25'" $@ $<
 
-shp/mi/cities.shp: shp/us/cities-over-150k.shp
+geo/mi/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '26'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '26'" $@ $<
 
-shp/mn/cities.shp: shp/us/cities-over-150k.shp
+geo/mn/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '27'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '27'" $@ $<
 
-shp/ms/cities.shp: shp/us/cities-over-150k.shp
+geo/ms/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '28'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '28'" $@ $<
 
-shp/mo/cities.shp: shp/us/cities-over-150k.shp
+geo/mo/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '29'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '29'" $@ $<
 
-shp/mt/cities.shp: shp/us/cities-over-150k.shp
+geo/mt/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '30'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '30'" $@ $<
 
-shp/ne/cities.shp: shp/us/cities-over-150k.shp
+geo/ne/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '31'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '31'" $@ $<
 
-shp/nv/cities.shp: shp/us/cities-over-150k.shp
+geo/nv/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '32'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '32'" $@ $<
 
-shp/nh/cities.shp: shp/us/cities-over-150k.shp
+geo/nh/cities.json: shp/us/cities-over-50k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '33'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '33'" $@ $<
 
-shp/nj/cities.shp: shp/us/cities-over-150k.shp
+geo/nj/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '34'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '34'" $@ $<
 
-shp/nm/cities.shp: shp/us/cities-over-150k.shp
+geo/nm/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '35'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '35'" $@ $<
 
-shp/ny/cities.shp: shp/us/cities-over-150k.shp
+geo/ny/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '36'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '36'" $@ $<
 
-shp/nc/cities.shp: shp/us/cities-over-150k.shp
+geo/nc/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '37'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '37'" $@ $<
 
-shp/nd/cities.shp: shp/us/cities-over-150k.shp
+geo/nd/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '38'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '38'" $@ $<
 
-shp/oh/cities.shp: shp/us/cities-over-150k.shp
+geo/oh/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '39'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '39'" $@ $<
 
-shp/ok/cities.shp: shp/us/cities-over-150k.shp
+geo/ok/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '40'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '40'" $@ $<
 
-shp/or/cities.shp: shp/us/cities-over-150k.shp
+geo/or/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '41'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '41'" $@ $<
 
-shp/pa/cities.shp: shp/us/cities-over-150k.shp
+geo/pa/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '42'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '42'" $@ $<
 
-shp/ri/cities.shp: shp/us/cities-over-150k.shp
+geo/ri/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '44'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '44'" $@ $<
 
-shp/sc/cities.shp: shp/us/cities-over-150k.shp
+geo/sc/cities.json: shp/us/cities-over-100k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '45'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '45'" $@ $<
 
-shp/sd/cities.shp: shp/us/cities-over-150k.shp
+geo/sd/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '46'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '46'" $@ $<
 
-shp/tn/cities.shp: shp/us/cities-over-150k.shp
+geo/tn/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '47'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '47'" $@ $<
 
-shp/tx/cities.shp: shp/us/cities-over-150k.shp
+geo/tx/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '48'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '48'" $@ $<
 
-shp/ut/cities.shp: shp/us/cities-over-150k.shp
+geo/ut/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '49'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '49'" $@ $<
 
-shp/vt/cities.shp: shp/us/cities-over-30k.shp
+geo/vt/cities.json: shp/us/cities-over-30k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '50'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '50'" $@ $<
 
-shp/va/cities.shp: shp/us/cities-over-150k.shp
+geo/va/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '51'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '51'" $@ $<
 
-shp/wa/cities.shp: shp/us/cities-over-150k.shp
+geo/wa/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '53'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '53'" $@ $<
 
-shp/wv/cities.shp: shp/us/cities-over-50k.shp
+geo/wv/cities.json: shp/us/cities-over-50k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '54'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '54'" $@ $<
 
-shp/wi/cities.shp: shp/us/cities-over-150k.shp
+geo/wi/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '55'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '55'" $@ $<
 
-shp/wy/cities.shp: shp/us/cities-over-50k.shp
+geo/wy/cities.json: shp/us/cities-over-50k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '56'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '56'" $@ $<
 
-shp/as/cities.shp: shp/us/cities-over-150k.shp
+geo/as/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '60'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '60'" $@ $<
 
-shp/fm/cities.shp: shp/us/cities-over-150k.shp
+geo/fm/cities.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '64'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '64'" $@ $<
 
-shp/gu/cities.shp: shp/us/cities-over-50k.shp
+geo/gu/cities.json: shp/us/cities-over-50k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '66'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '66'" $@ $<
 
-shp/mh/cities.shp: shp/us/cities-over-50k.shp
+geo/mh/cities.json: shp/us/cities-over-50k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '68'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '68'" $@ $<
 
-shp/mp/cities.shp: shp/us/cities-over-50k.shp
+geo/mp/cities.json: shp/us/cities-over-50k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '69'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '69'" $@ $<
 
-shp/pw/cities.shp: shp/us/cities-over-50k.shp
+geo/pw/cities.json: shp/us/cities-over-50k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '70'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '70'" $@ $<
 
-shp/pr/cities.shp: shp/us/cities-over-50k.shp
+geo/pr/cities.json: shp/us/cities-over-50k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '72'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '72'" $@ $<
 
-shp/um/cities.shp: shp/us/cities-over-50k.shp
+geo/um/cities.json: shp/us/cities-over-50k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '74'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '74'" $@ $<
 
-shp/vi/cities.shp: shp/us/cities-over-50k.shp
+geo/vi/cities.json: shp/us/cities-over-50k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '78'" $@ $<
+	ogr2ogr -f 'GeoJSON' -where "STATE_FIPS = '78'" $@ $<
 
 
-topo/us-cities.json: shp/us/cities-over-150k.shp
+topo/us-cities-100k.json: shp/us/cities-over-150k.shp
 	mkdir -p $(dir $@)
 	node_modules/.bin/topojson \
 		-o $@ \
 		--no-pre-quantization \
 		--post-quantization=1e6 \
 		--simplify=7e-7 \
-		-p NAME,STATE,LATITUDE,LONGITUDE \
+		-p NAME,STATE,LATITUDE,LONGITUDE,POP_2010 \
 		-- cities=$<
 
-topo/%/cities.json: shp/%/cities.shp
+topo/%/cities.json: geo/%/cities.json
 	mkdir -p $(dir $@)
 	node_modules/.bin/topojson \
 		-o $@ \
@@ -383,11 +398,24 @@ topo/us-cities-projected.json: shp/us/cities-over-150k.shp
 		--id-property=+FIPS \
 		-- cities=$<
 
+
+topo/us-cities.json: geo/cities-all.json
+	node_modules/.bin/topojson \
+		-o $@ \
+		--no-pre-quantization \
+		--post-quantization=1e6 \
+		--simplify=7e-7 \
+		-p NAME,STATE,LATITUDE,LONGITUDE,POP_2010 \
+		-- cities=$<
+
+geo/cities-all.json: all-states
+	node geo-combine
+
 svg/us-cities.svg: topo/us-cities-projected.json
 	mkdir -p $(dir $@)
 	node_modules/.bin/topojson-svg -o $@ $<
 
-cleanup-all: cleanup/shp cleanup/topo cleanup/svg
+cleanup-all: cleanup/shp cleanup/topo cleanup/svg cleanup/geo
 
 cleanup/%:
 	rm -rf $(notdir $@)
