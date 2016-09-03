@@ -1,36 +1,37 @@
-# US Cities
+# Atlas Make
 
-A handy way to build a "Cities" map layer for US and every State. 
+A toolbelt for building many different data formats via public Shape files (census.gov, usgs.gov)
 
-### Why
-
-This can be tricky for a few reasons:
-- 5 states do not have cities with populations over 100k.
-- 1 state does not have a city with population over 50k
-- Some states (NJ, FL, etc) have multiple cities with over 150k pop in close proximity
-- City labels add some complexity due to overlap and text clipping
-
-City classifications, by state:
-- over 30k (VT)
-- over 50k (DE, ME, WV, WY)
-- over 150k (all other states)
-
-#### Install System prereqs (Linux/MacOSX):
+### Install System prereqs (Linux/MacOSX):
 
 ```
 $ brew install node
 $ brew install gdal
 ```
 
-#### Clone repo and install dependencies
+### Clone repo and install dependencies
 
 ```
-$ git clone https://github.com/bradoyler/us-cities.git
-$ cd us-cities
+$ git clone https://github.com/bradoyler/atlas-make.git
+$ cd atlas-make
 $ npm install
 ```
 
-#### Build files (via Make)
+### Make all targets/recipes
+
 ```
 $ make all
 ```
+
+### Included make targets
+- us-cities
+- us-towns
+- us-demographics
+
+### TODOs:
+- world maps
+- expand on us maps
+- add recipes for Postgres via gdal
+
+#### Inspiration
+- [Why Use Make](https://bost.ocks.org/mike/make/)

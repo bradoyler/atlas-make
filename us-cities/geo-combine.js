@@ -5,13 +5,13 @@ var statesString = 'al ak az ar ca co ct de dc fl ga hi id il in ia ks ky la me 
 var states = statesString.split(' ');
 var cities = [];
 
-states.forEach(function (stateCode) {
+states.forEach(function (stateCode, idx) {
   fs.readFile('geo/'+ stateCode +'/cities.json', function (err, resp) {
     var geojson = JSON.parse(resp);
     var stateFeatures = JSON.parse(resp).features;
     cities = cities.concat(stateFeatures);
 
-    if(stateCode === 'wy') { // last state
+    if(idx === states.length -1) { // last state
       complete(geojson, cities);
     }
   });
@@ -19,5 +19,6 @@ states.forEach(function (stateCode) {
 
 function complete(geojson, allcities) {
   geojson.features = allcities;
+	console.log('>>> merge & writeFile()');
   fs.writeFile('geo/cities-all.json', JSON.stringify(geojson));
 }

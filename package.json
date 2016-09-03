@@ -1,27 +1,23 @@
 {
-  "name": "us-cities",
+  "name": "atlas-make",
   "version": "0.0.1",
-  "description": "Build TopoJSON map layers via nationalatlas.gov shape files",
-  "keywords": [
-    "topojson",
-    "geojson",
-    "shapefile",
-    "cities"
-  ],
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "http://github.com/bradoyler/us-cities.git"
-  },
-  "author": {
-    "name": "Brad Oyler",
-    "url": "http://bradoyler.com"
-  },
+  "description": "A handy set of makefiles & recipes for building map related data files",
   "license": "MIT",
-  "devDependencies": {
-    "shapefile": "0.3.1",
+	"repository": {
+		"type": "git",
+		"url": "http://github.com/bradoyler/us-cities.git"
+	},
+	"author": {
+		"name": "Brad Oyler",
+		"url": "http://bradoyler.com"
+	},
+	"keywords": [
+		"topojson",
+		"geojson",
+		"shapefile",
+		"maps"
+	],
+	"dependencies": {
     "topojson": "1.6.26"
   }
 }
