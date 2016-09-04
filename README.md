@@ -24,8 +24,10 @@ $ make all
 ```
 
 ### Included make targets
+- us-states
+- us-counties
+- us-towns (county subdivisions)
 - us-cities
-- us-towns
 - us-demographics
 
 ### TODOs:
