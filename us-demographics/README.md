@@ -1,5 +1,6 @@
 # US-demographics
-Build various Census / ACS files (shape, geojson & csv)
+
+Objective: Build various Census / ACS files (GEOJson & CSV)
 
 ### Data file index: https://www.census.gov/geo/maps-data/data/tiger-data.html
 

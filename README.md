@@ -23,17 +23,18 @@ $ npm install
 $ make all
 ```
 
-### Included make targets
-- us-states
-- us-counties
-- us-towns (county subdivisions)
-- us-cities
-- us-demographics
+### Current make targets
+- `us-states`
+- `us-counties`
+- `us-towns` (county subdivisions)
+- `us-cities`
+- `us-demographics`
 
-### TODOs:
-- world maps
-- expand on us maps
-- add recipes for Postgres via gdal
+### Future plans:
+- expand `us-demographics` data (Census & ACS)
+- recipes for inserting data into PostgreSQL
+- a `world-countries` target
+- more map layers: roads, airports, etc.
 
 #### Inspiration
 - [Why Use Make](https://bost.ocks.org/mike/make/)
