@@ -1,1 +1,10 @@
 .idea/
+node_modules
+gz/
+gdb/
+svg/
+csv/
+shp/
+geo/
+topo/
+zip/

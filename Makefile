@@ -1,6 +1,6 @@
 #
 
-all: us-towns us-cities us-demographics
+all: us-towns us-cities us-demographics us-states us-counties
 
 .PHONY: us-towns
 
@@ -17,7 +17,21 @@ us-cities:
 us-demographics:
 	cd us-demographics && make
 
+.PHONY: us-states
+
+us-states:
+	cd us-states && make
+
+.PHONY: us-counties
+
+us-counties:
+	cd us-counties && make
+
+
+##--------------
 clean-all:
 	cd us-demographics && make clean-all
 	cd us-towns && make clean-all
 	cd us-cities && make clean-all
+	cd us-states && make clean-all
+	cd us-counties && make clean-all
