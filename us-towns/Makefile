@@ -95,6 +95,11 @@ topo/ma/towns.json: shp/ma_towns/towns.shp
 		-p TOWN,POP2010,COUNTY,COUSUBFP10 \
 		-- towns=$<
 
+csv/%/countysubs.csv: shp/%/countysubs.shp
+	mkdir -p $(dir $@)
+	rm -f $@
+	ogr2ogr -f 'CSV' -progress $@ $<
+
 ##### clean targets ##########
 clean-all: clean/shp clean/geo clean/topo
 
