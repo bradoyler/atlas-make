@@ -1,6 +1,10 @@
 # County subdivisions (Towns): https://www.census.gov/geo/maps-data/data/cbf/cbf_cousub.html
 
-# http://wsgw.mass.gov/data/gispub/shape/census2010/CENSUS2010TOWNS_SHP.zip
+# Towns for MA
+# Shapes via: http://www.mass.gov/anf/research-and-tech/it-serv-and-support/application-serv/office-of-geographic-information-massgis/datalayers/townsurvey.html
+
+# todo: Towns for ME,CT,RI,VT,NH,RI
+## http://www.mass.gov/anf/research-and-tech/it-serv-and-support/application-serv/office-of-geographic-information-massgis/datalayers/adjacent-states-town-boundaries.html
 
 STATES=al ak az ar ca co ct de dc fl \
 ga hi id il in ia ks ky la me \
@@ -88,27 +92,39 @@ topo/%/countysubs.json: shp/%/countysubs.shp
 		-p NAME,STATEFP,COUNTYFP,COUSUBFP \
 		-- countysubs=$<
 
-# MA Towns via mass.gov
-gz/CENSUS2010_MA_TOWNS_SHP.zip:
+csv/%/countysubs.csv: shp/%/countysubs.shp
 	mkdir -p $(dir $@)
-	curl 'http://wsgw.mass.gov/data/gispub/shape/census2010/CENSUS2010TOWNS_SHP.zip' -o $@.download
+	rm -f $@
+	ogr2ogr -f 'CSV' -progress $@ $<
+
+#### MA Towns via mass.gov #####
+gz/ma_townssurvey_shp.zip:
+	mkdir -p $(dir $@)
+	curl 'http://wsgw.mass.gov/data/gispub/shape/state/townssurvey_shp.zip' -o $@.download
 	mv $@.download $@
 
-shp/ma_towns/towns.shp: gz/CENSUS2010_MA_TOWNS_SHP.zip
+# extracts the TOWNSSURVEY_POLYM.* files from zip
+shp/ma_towns/TOWNSSURVEY_POLYM.shp: gz/ma_townssurvey_shp.zip
 	rm -rf $(basename $@)
 	mkdir -p $(basename $@)
 	tar -xzm -C $(basename $@) -f $<
-	for file in $(basename $@)/*; do chmod 644 $$file; mv $$file $(basename $@).$${file##*.}; done
-	rmdir $(basename $@)
+	for file in $(basename $@)/$(basename $(notdir $@)).*; do chmod 644 $$file; mv $$file $(basename $@).$${file##*.}; done
+	rm -rf $(basename $@)
 
-topo/ma/towns.json: shp/ma_towns/towns.shp
+geo/ma/towns.json: shp/ma_towns/TOWNSSURVEY_POLYM.shp
+	mkdir -p $(dir $@)
+	rm -f $@
+	ogr2ogr -f GeoJSON  -t_srs EPSG:4326 $@ $<
+
+topo/ma/towns.json: geo/ma/towns.json
 	mkdir -p $(dir $@)
 	../node_modules/.bin/topojson \
 		-o $@ \
-		-p TOWN,POP2010,COUNTY,COUSUBFP10 \
+		-q 1e3 -s 1e-8 \
+		-p TOWN,TOWN_ID,POP2010,FIPS_STCO \
 		-- towns=$<
 
-csv/%/countysubs.csv: shp/%/countysubs.shp
+csv/ma/towns.csv: shp/ma_towns/TOWNSSURVEY_POLYM.shp
 	mkdir -p $(dir $@)
 	rm -f $@
 	ogr2ogr -f 'CSV' -progress $@ $<
