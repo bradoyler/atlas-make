@@ -45,7 +45,7 @@ shp/hi/countysubs.shp: gz/tl_2013_15_cousub.zip
 shp/id/countysubs.shp: gz/tl_2013_16_cousub.zip
 shp/il/countysubs.shp: gz/tl_2013_17_cousub.zip
 shp/in/countysubs.shp: gz/tl_2013_18_cousub.zip
-shp/ka/countysubs.shp: gz/tl_2013_19_cousub.zip
+shp/ia/countysubs.shp: gz/tl_2013_19_cousub.zip
 shp/ks/countysubs.shp: gz/tl_2013_20_cousub.zip
 shp/ky/countysubs.shp: gz/tl_2013_21_cousub.zip
 shp/la/countysubs.shp: gz/tl_2013_22_cousub.zip

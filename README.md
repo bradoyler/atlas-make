@@ -22,6 +22,7 @@ $ npm install
 ```
 $ make all
 ```
+this may take about 15mins, so try `$ make us-states` first
 
 ### Current make targets
 - `us-states`
@@ -30,12 +31,15 @@ $ make all
 - `us-cities`
 - `na-places`
 - `us-demographics`
+- `us-transportation`
+
 
 ### Future plans:
 - expand `us-demographics` data (Census & ACS)
 - recipes for inserting data into PostgreSQL
 - a `world-countries` target
 - more map layers: roads, airports, etc.
+- rendered map examples using [D3.js](https://d3js.org/) & [D3-Node](https://github.com/bradoyler/d3-node)
 
 #### Inspiration
 - [Why Use Make](https://bost.ocks.org/mike/make/)
