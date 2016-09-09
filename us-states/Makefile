@@ -1,7 +1,7 @@
 # State boundaries (scale:1m) http://nationalmap.gov/small_scale/mld/1statep.html
 # Index: http://nationalmap.gov/small_scale/atlasftp.html?openChapters=chpbound#chpbound
 
-# 51 states:
+# 50 states + DC:
 # al ak az ar ca co ct de dc fl
 # ga hi id il in ia ks ky la me
 # md ma mi mn ms mo mt ne nv nh
