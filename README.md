@@ -28,6 +28,7 @@ $ make all
 - `us-counties`
 - `us-towns` (county subdivisions)
 - `us-cities`
+- `na-places`
 - `us-demographics`
 
 ### Future plans:

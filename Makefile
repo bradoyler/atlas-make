@@ -1,6 +1,6 @@
 #
 
-all: us-towns us-cities us-demographics us-states us-counties
+all: us-towns us-cities us-demographics us-states us-counties na-places
 
 .PHONY: us-towns
 
@@ -27,6 +27,11 @@ us-states:
 us-counties:
 	cd us-counties && make
 
+.PHONY: na-places
+
+na-places:
+	cd na-places && make
+
 
 ##--------------
 clean-all:
@@ -35,3 +40,4 @@ clean-all:
 	cd us-cities && make clean-all
 	cd us-states && make clean-all
 	cd us-counties && make clean-all
+	cd na-places && make clean-all
