@@ -20,7 +20,7 @@ shp/na-places.shp: gz/pop000x_shp_nt00304.tar.gz
 shp/na-places-class3.shp: shp/na-places.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "POPCLASS = 3 OR CAPITAL = 1" $@ $<
+	ogr2ogr -f 'ESRI Shapefile' -where "POPCLASS > 2 OR CAPITAL = 1" $@ $<
 
 geo/us-places.json: shp/na-places-class3.shp
 	mkdir -p $(dir $@)
