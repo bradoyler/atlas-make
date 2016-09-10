@@ -67,7 +67,7 @@ shp/us-states.shp: shp/us-states-raw.shp
 geo/us-states.json: shp/us-states-raw.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'GeoJSON' -simplify 0.1 -progress $@ $<
+	ogr2ogr -f 'GeoJSON' -simplify 0.005 -progress $@ $<
 
 topo/us-states.json: shp/us-states.shp
 	mkdir -p $(dir $@)
@@ -79,7 +79,7 @@ topo/us-states.json: shp/us-states.shp
 		-- states=$<
 
 ##### clean targets ##########
-clean-all: clean/shp clean/csv clean/topo
+clean-all: clean/shp clean/csv clean/topo clean/geo
 
 clean/%:
 	rm -rf $(notdir $@)
