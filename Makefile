@@ -21,7 +21,7 @@ us-cities:
 us-demographics:
 	cd $@ && make all
 
-us-demographics/csv
+us-demographics/csv:
 	cd $(dir $@) && make all-csv
 
 us-states:
