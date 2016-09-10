@@ -16,7 +16,13 @@ wy
 # NewEnglandStates=ct me ma nh ri vt
 
 all:
-	for i in ${STATES} ; do make topo/$$i/countysubs.json csv/$$i/countysubs.csv ; done
+	for i in ${STATES} ; do make shp/$$i/countysubs.shp csv/$$i/countysubs.csv ; done
+
+.SECONDARY:
+
+# run this target to for topojson for ALL states
+all-topo:
+	for i in ${STATES} ; do make topo/$$i/countysubs.json ; done
 
 gz/tl_2013_%_cousub.zip:
 	mkdir -p $(dir $@)

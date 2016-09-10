@@ -4,7 +4,11 @@
 ## ACS 2014 - States:   http://www2.census.gov/geo/tiger/TIGER_DP/2014ACS/ACS_2014_5YR_STATE.gdb.zip
 ## ACS 2014 - Counties: http://www2.census.gov/geo/tiger/TIGER_DP/2014ACS/ACS_2014_5YR_COUNTY.gdb.zip
 
-all: geo/census-2010/states-full.json geo/census-2010/counties-full.json csv/acs-2014/states csv/acs-2014/counties
+all: geo/census-2010/states-full.json geo/census-2010/counties-full.json csv/acs-2014/states
+
+# targets to be run manually: csv/acs-2014/counties
+
+all-csv: csv/acs-2014/counties csv/acs-2014/states
 
 gz/census-2010/%.zip:
 	mkdir -p $(dir $@)

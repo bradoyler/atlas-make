@@ -34,8 +34,14 @@ sc sd tn tx ut vt va wa wv wi \
 wy pr vi
 
 all:
-	for i in ${STATES} ; do make topo/$$i/counties.json csv/$$i/counties.csv ; done
+	for i in ${STATES} ; do make shp/$$i/counties.shp csv/$$i/counties.csv ; done
 	make topo/us/counties.json csv/us/counties.csv
+
+.SECONDARY:
+
+# run this target for topojson for ALL states
+all-topo:
+	for i in ${STATES} ; do make topo/$$i/counties.json ; done
 
 gz/%.tar.gz:
 	mkdir -p $(dir $@)
@@ -79,12 +85,6 @@ topo/%/counties.json: shp/%/counties.shp
 		-p COUNTY,FIPS,STATE,STATE_FIPS \
 		--id-property=FIPS \
 		-- counties=$<
-
-## added to keep shp file from getting deleted for these states...
-topo/mi/counties.json: shp/mi/counties.shp
-topo/pa/counties.json: shp/pa/counties.shp
-topo/ny/counties.json: shp/ny/counties.shp
-topo/wi/counties.json: shp/wi/counties.shp
 
 ##### clean targets ##########
 clean-all: clean/shp clean/csv clean/topo clean/geo
