@@ -32,6 +32,7 @@ this may take about 15mins, so try `$ make us-states` first
 - [`us-cities`](us-cities)
 - [`us-demographics`](us-demographics)
 - [`us-transportation`](us-transportation)
+- [`us-congress`](us-congress)
 
 
 ### Future plans:
