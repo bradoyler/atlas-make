@@ -25,14 +25,14 @@ $ make all
 this may take about 15mins, so try `$ make us-states` first
 
 ### Current make targets
-- [`na-places`](./na-places/README.md) (populated places in North America )
-- [`us-states`](./us-states)
-- [`us-counties`](./us-counties)
-- [`us-towns`](./us-towns) (county subdivisions)
-- [`us-cities`](./us-cities)
-- [`us-demographics`](./us-demographics)
-- [`us-transportation`](./us-transportation)
-- [`us-congress`](./us-congress)
+- [na-places](na-places/README.md) (populated places in North America )
+- [us-states](us-states)
+- [us-counties](us-counties)
+- [us-towns](us-towns) (county subdivisions)
+- [us-cities](us-cities)
+- [us-demographics](us-demographics)
+- [us-transportation](us-transportation)
+- [us-congress](us-congress)
 
 
 ### Future plans:
