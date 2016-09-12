@@ -2,5 +2,5 @@
 Build TopoJSON from County-subdivision shape files from Census.gov
 
 ## Scope
-- County subdivisions (Towns): https://www.census.gov/geo/maps-data/data/cbf/cbf_cousub.html
-- currently only builds for a few states: CT(09), ME(23), MA(25), NH(33), RI(44), VT(50)
+- County subdivisions (aka Towns) for all States: https://www.census.gov/geo/maps-data/data/cbf/cbf_cousub.html
+- Also builds a `ma_towns` from [Mass.gov shape file](http://www.mass.gov/anf/research-and-tech/it-serv-and-support/application-serv/office-of-geographic-information-massgis/datalayers/townsurvey.html). 
