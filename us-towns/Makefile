@@ -104,13 +104,13 @@ csv/%/countysubs.csv: shp/%/countysubs.shp
 	ogr2ogr -f 'CSV' -progress $@ $<
 
 #### MA Towns via mass.gov #####
-gz/ma_townssurvey_shp.zip:
+gz/ma_towns.zip:
 	mkdir -p $(dir $@)
 	curl 'http://wsgw.mass.gov/data/gispub/shape/state/townssurvey_shp.zip' -o $@.download
 	mv $@.download $@
 
 # extracts the TOWNSSURVEY_POLYM.* files from zip
-shp/ma_towns/TOWNSSURVEY_POLYM.shp: gz/ma_townssurvey_shp.zip
+shp/ma_towns/TOWNSSURVEY_POLYM.shp: gz/ma_towns.zip
 	rm -rf $(basename $@)
 	mkdir -p $(basename $@)
 	tar -xzm -C $(basename $@) -f $<
@@ -128,12 +128,42 @@ topo/ma/towns.json: geo/ma/towns.json
 		-o $@ \
 		-q 1e3 -s 1e-8 \
 		-p TOWN,TOWN_ID,POP2010,FIPS_STCO \
+		--id-property=+TOWN_ID \
 		-- towns=$<
 
 csv/ma/towns.csv: shp/ma_towns/TOWNSSURVEY_POLYM.shp
 	mkdir -p $(dir $@)
 	rm -f $@
 	ogr2ogr -f 'CSV' -progress $@ $<
+
+## RI Towns via Mass.gov
+
+gz/ri_towns.zip:
+	mkdir -p $(dir $@)
+	curl 'http://wsgw.mass.gov/data/gispub/shape/ne/ritowns.zip' -o $@.download
+	mv $@.download $@
+
+# extracts the RITOWNS_POLY.* files from zip
+shp/ri_towns/RITOWNS_POLY.shp: gz/ri_towns.zip
+	rm -rf $(basename $@)
+	mkdir -p $(basename $@)
+	tar -xzm -C $(basename $@) -f $<
+	for file in $(basename $@)/$(basename $(notdir $@)).*; do chmod 644 $$file; mv $$file $(basename $@).$${file##*.}; done
+	rm -rf $(basename $@)
+
+geo/ri/towns.json: shp/ri_towns/RITOWNS_POLY.shp
+	mkdir -p $(dir $@)
+	rm -f $@
+	ogr2ogr -f GeoJSON  -t_srs EPSG:4326 $@ $<
+
+topo/ri/towns.json: geo/ri/towns.json
+	mkdir -p $(dir $@)
+	../node_modules/.bin/topojson \
+		-o $@ \
+		-q 1e3 -s 1e-9 \
+		-p OSP_CODE,NAME,CFIPS_CODE,TFIPS_CODE \
+		--id-property=+OSP_CODE \
+		-- towns=$<
 
 ##### clean targets ##########
 clean-all: clean/shp clean/geo clean/topo clean/csv
