@@ -1,6 +1,6 @@
 # Atlas-make - master makefile
 
-TARGETS=na-places us-demographics us-towns us-cities us-counties us-transportation us-congress
+TARGETS=na-places us-demographics us-towns us-cities us-states us-counties us-transportation us-congress
 
 all: ${TARGETS}
 
