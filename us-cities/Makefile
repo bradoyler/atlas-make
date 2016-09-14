@@ -6,7 +6,7 @@
 # territories:
 # pr vi as fm gu mh mp pw um
 
-all: all-states topo/us-cities.json geo/us/capitals.json svg/us-cities.svg
+all: all-states geo/cities-all.json geo/us/capitals.json svg/us-cities.svg
 
 STATES=al ak az ar ca co ct de dc fl ga hi id il in ia ks ky la me md ma mi mn ms mo mt ne nv nh nj nm ny nc nd oh ok or pa ri sc sd tn tx ut vt va wa wv wi wy
 all-states:
@@ -83,6 +83,11 @@ geo/nd/cities.json: shp/us/cities-over-50k.shp
 	rm -f $@
 	ogr2ogr -f 'GeoJSON' -where "STATE LIKE 'ND'" $@ $<
 
+geo/ct/cities.json: shp/us/cities-over-100k.shp
+	mkdir -p $(dir $@)
+	rm -f $@
+	ogr2ogr -f 'GeoJSON' -where "STATE LIKE 'CT'" $@ $<
+
 geo/sc/cities.json: shp/us/cities-over-100k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
@@ -92,6 +97,11 @@ geo/vt/cities.json: shp/us/cities-over-30k.shp
 	mkdir -p $(dir $@)
 	rm -f $@
 	ogr2ogr -f 'GeoJSON' -where "STATE LIKE 'VT'" $@ $<
+
+geo/de/cities.json: shp/us/cities-over-50k.shp
+	mkdir -p $(dir $@)
+	rm -f $@
+	ogr2ogr -f 'GeoJSON' -where "STATE LIKE 'DE'" $@ $<
 
 geo/wv/cities.json: shp/us/cities-over-50k.shp
 	mkdir -p $(dir $@)
