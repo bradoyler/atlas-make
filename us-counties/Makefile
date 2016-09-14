@@ -76,12 +76,33 @@ geo/%/counties.json: shp/%/counties.shp
 	rm -f $@
 	ogr2ogr -f 'GeoJSON' -progress $@ $<
 
-topo/%/counties.json: shp/%/counties.shp
+topo/tx/counties.json: shp/tx/counties.shp
 	mkdir -p $(dir $@)
 	../node_modules/.bin/topojson \
 		-o $@ \
 		-q 1E6 \
 		-s 1E-7 \
+		-p COUNTY,FIPS,STATE,STATE_FIPS \
+		--id-property=FIPS \
+		-- counties=$<
+
+topo/ak/counties.json: shp/ak/counties.shp
+	mkdir -p $(dir $@)
+	../node_modules/.bin/topojson \
+		-o $@ \
+		-q 1E6 \
+		-s 1E-7 \
+		-p COUNTY,FIPS,STATE,STATE_FIPS \
+		--id-property=FIPS \
+		-- counties=$<
+
+
+topo/%/counties.json: shp/%/counties.shp
+	mkdir -p $(dir $@)
+	../node_modules/.bin/topojson \
+		-o $@ \
+		-q 1E6 \
+		-s 1E-8 \
 		-p COUNTY,FIPS,STATE,STATE_FIPS \
 		--id-property=FIPS \
 		-- counties=$<
