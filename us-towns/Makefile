@@ -20,10 +20,11 @@ all:
 
 .SECONDARY:
 
-# run this target to for topojson for ALL states
+# run this target to build topojson for ALL states
 all-topo:
 	for i in ${STATES} ; do make topo/$$i/countysubs.json ; done
 
+### County Subs (census.gov) ###
 gz/tl_2013_%_cousub.zip:
 	mkdir -p $(dir $@)
 	curl 'http://www2.census.gov/geo/tiger/TIGER2013/COUSUB/$(notdir $@)' -o $@.download
@@ -89,12 +90,48 @@ shp/wi/countysubs.shp: gz/tl_2013_55_cousub.zip
 shp/wy/countysubs.shp: gz/tl_2013_56_cousub.zip
 shp/pr/countysubs.shp: gz/tl_2013_72_cousub.zip
 
+## removes water bodies
+geo/%/countysubs.json: shp/%/countysubs.shp
+	mkdir -p $(dir $@)
+	rm -f $@
+	ogr2ogr -f GeoJSON -where "COUSUBFP NOT LIKE '00000'" $@ $<
+
 topo/%/countysubs.json: shp/%/countysubs.shp
 	mkdir -p $(dir $@)
 	../node_modules/.bin/topojson \
 		-o $@ \
 		-q 1E6 \
 		-s 1E-8 \
+		-p NAME,STATEFP,COUNTYFP,COUSUBFP \
+		-- countysubs=$<
+
+## CT; remove water bodies and reduce simplification
+topo/ct/countysubs.json: geo/ct/countysubs.json
+	mkdir -p $(dir $@)
+	../node_modules/.bin/topojson \
+		-o $@ \
+		-q 1E6 \
+		-s 1E-9 \
+		-p NAME,STATEFP,COUNTYFP,COUSUBFP \
+		-- countysubs=$<
+
+## AK; reduce simplification
+topo/ak/countysubs.json: shp/ak/countysubs.shp
+	mkdir -p $(dir $@)
+	../node_modules/.bin/topojson \
+		-o $@ \
+		-q 1E6 \
+		-s 1E-9 \
+		-p NAME,STATEFP,COUNTYFP,COUSUBFP \
+		-- countysubs=$<
+
+#TX; increased simplification
+topo/tx/countysubs.json: shp/tx/countysubs.shp
+	mkdir -p $(dir $@)
+	../node_modules/.bin/topojson \
+		-o $@ \
+		-q 1E6 \
+		-s 1E-7 \
 		-p NAME,STATEFP,COUNTYFP,COUSUBFP \
 		-- countysubs=$<
 
@@ -136,22 +173,23 @@ csv/ma/towns.csv: shp/ma_towns/TOWNSSURVEY_POLYM.shp
 	rm -f $@
 	ogr2ogr -f 'CSV' -progress $@ $<
 
-## RI Towns via Mass.gov
+## Towns for adjacent states to MA (via Mass.gov)
+## http://www.mass.gov/anf/research-and-tech/it-serv-and-support/application-serv/office-of-geographic-information-massgis/datalayers/adjacent-states-town-boundaries.html
 
-gz/ri_towns.zip:
+gz/%towns.zip:
 	mkdir -p $(dir $@)
-	curl 'http://wsgw.mass.gov/data/gispub/shape/ne/ritowns.zip' -o $@.download
+	curl 'http://wsgw.mass.gov/data/gispub/shape/ne/$(notdir $@)' -o $@.download
 	mv $@.download $@
 
-# extracts the RITOWNS_POLY.* files from zip
-shp/ri_towns/RITOWNS_POLY.shp: gz/ri_towns.zip
+### Towns for Adjacent States to MA (RI,NH,CT,ME,VT) ###
+shp/%/TOWNS_POLY.shp: gz/%towns.zip
 	rm -rf $(basename $@)
 	mkdir -p $(basename $@)
 	tar -xzm -C $(basename $@) -f $<
-	for file in $(basename $@)/$(basename $(notdir $@)).*; do chmod 644 $$file; mv $$file $(basename $@).$${file##*.}; done
+	for file in $(basename $@)/*$(basename $(notdir $@)).*; do chmod 644 $$file; mv $$file $(basename $@).$${file##*.}; done
 	rm -rf $(basename $@)
 
-geo/ri/towns.json: shp/ri_towns/RITOWNS_POLY.shp
+geo/%/towns.json: shp/%/TOWNS_POLY.shp
 	mkdir -p $(dir $@)
 	rm -f $@
 	ogr2ogr -f GeoJSON  -t_srs EPSG:4326 $@ $<
@@ -165,8 +203,48 @@ topo/ri/towns.json: geo/ri/towns.json
 		--id-property=+OSP_CODE \
 		-- towns=$<
 
+topo/ct/towns.json: geo/ct/towns.json
+	mkdir -p $(dir $@)
+	../node_modules/.bin/topojson \
+		-o $@ \
+		-q 1e3 -s 1e-9 \
+		-p \
+		--id-property=TNA \
+		-- towns=$<
+
+topo/me/towns.json: geo/me/towns.json
+	mkdir -p $(dir $@)
+	../node_modules/.bin/topojson \
+		-o $@ \
+		-q 1e3 -s 1e-9 \
+		-p \
+		--id-property=TOWN_ID \
+		-- towns=$<
+
+topo/vt/towns.json: geo/vt/towns.json
+	mkdir -p $(dir $@)
+	../node_modules/.bin/topojson \
+		-o $@ \
+		-q 1e3 -s 1e-9 \
+		-p \
+		--id-property=FIPS \
+		-- towns=$<
+
+topo/nh/towns.json: geo/nh/towns.json
+	mkdir -p $(dir $@)
+	../node_modules/.bin/topojson \
+		-o $@ \
+		-q 1e3 -s 1e-9 \
+		-p \
+		--id-property=FIPS \
+		-- towns=$<
+
 ##### clean targets ##########
 clean-all: clean/shp clean/geo clean/topo clean/csv
 
 clean/%:
 	rm -rf $(notdir $@)
+
+Test/target%/file.txt:
+	echo $@ $(dir $@) $(basename $@) $(notdir $@) $? $(basename $(notdir $@))
+	echo $(shell echo $@ | tr A-Z a-z) # lowercase trick
