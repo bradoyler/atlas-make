@@ -4,11 +4,11 @@
 ## ACS 2014 - States:   http://www2.census.gov/geo/tiger/TIGER_DP/2014ACS/ACS_2014_5YR_STATE.gdb.zip
 ## ACS 2014 - Counties: http://www2.census.gov/geo/tiger/TIGER_DP/2014ACS/ACS_2014_5YR_COUNTY.gdb.zip
 
-all: geo/census-2010/states-full.json geo/census-2010/counties-full.json csv/acs-2014/states
+all: geo/census-2010/states-full.json csv/acs-2014/states csv/census-2010/states.csv csv/census-2010/counties.csv
 
 # targets to be run manually: csv/acs-2014/counties
 
-all-csv: csv/acs-2014/counties csv/acs-2014/states
+all-csv: csv/acs-2014/counties csv/acs-2014/states csv/census-2010/states.csv csv/census-2010/counties.csv
 
 gz/census-2010/%.zip:
 	mkdir -p $(dir $@)
@@ -27,13 +27,11 @@ shp/census-2010_counties.shp: gz/census-2010/County_2010Census_DP1.zip
 
 gdb/acs-2014/ACS_2014_5YR_STATE.gdb: gz/acs-2014/ACS_2014_5YR_STATE.gdb.zip
 	mkdir -p $(dir $@)
-	unzip -aq $<
-	mv $(notdir $@) $(dir $@)
+	unzip -o $< -d $(dir $@)
 
 gdb/acs-2014/ACS_2014_5YR_COUNTY.gdb: gz/acs-2014/ACS_2014_5YR_COUNTY.gdb.zip
 	mkdir -p $(dir $@)
-	unzip -aq $<
-	mv $(notdir $@) $(dir $@)
+	unzip -o $< -d $(dir $@)
 
 shp/%.shp:
 	rm -rf $(basename $@)
@@ -56,14 +54,26 @@ geo/census-2010/states-minimal.json: shp/census-2010_states.shp
 shp/acs-2014/states:
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -simplify 0.9 -progress $@ gz/acs-2014/ACS_2014_5YR_STATE.gdb
+	ogr2ogr -f 'ESRI Shapefile' -simplify 0.9 -progress $@ gdb/acs-2014/ACS_2014_5YR_STATE.gdb
 
+# extracts many csv files from gdb
 csv/acs-2014/states: gdb/acs-2014/ACS_2014_5YR_STATE.gdb
 	mkdir -p $(dir $@)
 	rm -f $@
 	ogr2ogr -f 'CSV' -progress $@ $<
 
+# extracts many csv files from gdb
 csv/acs-2014/counties: gdb/acs-2014/ACS_2014_5YR_COUNTY.gdb
+	mkdir -p $(dir $@)
+	rm -f $@
+	ogr2ogr -f 'CSV' -progress $@ $<
+
+csv/census-2010/states.csv: shp/census-2010_states.shp
+	mkdir -p $(dir $@)
+	rm -f $@
+	ogr2ogr -f 'CSV' -progress $@ $<
+
+csv/census-2010/counties.csv: shp/census-2010_counties.shp
 	mkdir -p $(dir $@)
 	rm -f $@
 	ogr2ogr -f 'CSV' -progress $@ $<
