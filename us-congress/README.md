@@ -1,4 +1,4 @@
-# US Congressional Districts
+# US Congressional Districts (114th)
 (scale:1m) http://nationalmap.gov/small_scale/mld/cgd114p.html
 
 ![districts-screenshot](https://cloud.githubusercontent.com/assets/425966/18412803/15f923a8-7766-11e6-9007-7eb0eb58e079.png)
@@ -15,6 +15,11 @@
 ### Territories with districts:
 ```
  pr vi
+```
+
+If you need individual state files:
+```
+$ make all-states
 ```
 
 Shp source: ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/SmallScale/Data/Boundaries/cgd114p010g.shp.tar.gz
