@@ -1,10 +1,13 @@
 # Atlas-make - master makefile
 
-TARGETS=na-places us-demographics us-towns us-cities us-states us-counties us-transportation us-congress
+TARGETS=na-places us-demographics us-towns us-cities us-states us-counties us-transportation us-congress world-countries
 
 all: ${TARGETS}
 
 .PHONY: ${TARGETS}
+
+world-countries:
+	cd $@ && make all
 
 na-places:
 	cd $@ && make all
@@ -39,6 +42,7 @@ us-transportation:
 us-congress:
 	cd $@ && make all
 
+
 ##-- deletes all files except gz/zip files -----
 clean-all:
 	cd na-places && make clean-all
@@ -49,3 +53,4 @@ clean-all:
 	cd us-counties && make clean-all
 	cd us-transportation && make clean-all
 	cd us-congress && make clean-all
+	cd world-countries && make clean-all

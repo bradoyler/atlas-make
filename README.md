@@ -46,7 +46,7 @@ this may take about 15mins, so try `$ make us-states` first
 ### Future plans:
 - expand `us-demographics` data (Census & ACS)
 - recipes for inserting data into PostgreSQL
-- a `world-countries` target
+- more `world-*` targets
 - more map layers: roads, airports, etc.
 - rendered map examples using [D3.js](https://d3js.org/) & [D3-Node](https://github.com/bradoyler/d3-node)
 
