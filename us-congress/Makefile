@@ -1,35 +1,6 @@
 # US Congressional Districts (scale:1m) http://nationalmap.gov/small_scale/mld/cgd114p.html
 # Index: http://nationalmap.gov/small_scale/atlasftp.html
 
-# 50 states + DC:
-# al ak az ar ca co ct de dc fl
-# ga hi id il in ia ks ky la me
-# md ma mi mn ms mo mt ne nv nh
-# nj nm ny nc nd oh ok or pa ri
-# sc sd tn tx ut vt va wa wv wi
-# wy
-
-# territories with districts:
-# pr vi
-
-## DBase file info:
-# src: ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/SmallScale/Data/Boundaries/cgd114p010g.shp.tar.gz
-# STATE	Pennsylvania
-# STATE_FIPS	42
-# CONG_DIST	10
-# CONG_REP	Tom Marino
-# PARTY_AFF	Republican
-# URL	http://marino.house.gov/
-# SENATOR_1	Robert P.Casey Jr.
-# SEN1_PARTY	Democrat
-# SEN_1_URL	http://www.Casey.senate.gov/
-# SENATOR_2	Patrick J. Toomey
-# SEN2_PARTY	Republican
-# SEN_2_URL	http://www.Toomey.senate.gov/
-# Shape_Leng	14.6170283108
-# Shape_Area	2.36918328648
-
-
 STATES=al ak az ar ca co ct de dc fl \
 ga hi id il in ia ks ky la me \
 md ma mi mn ms mo mt ne nv nh \
@@ -37,7 +8,7 @@ nj nm ny nc nd oh ok or pa ri \
 sc sd tn tx ut vt va wa wv wi \
 wy pr vi
 
-## closest thing to KeyValue pairs
+# 50 states + DC, PR & VI: closest thing to KeyValue pairs
 al_fips=01
 ak_fips=02
 az_fips=04
@@ -142,12 +113,22 @@ topo/us/congress.json: shp/us/congress.shp
 		--id-property=STATE_FIPS+CONG_DIST \
 		-- congress=$<
 
-topo/%/congress.json: shp/%/congress.shp
+topo/ak/congress.json: shp/ak/congress.shp
 	mkdir -p $(dir $@)
 	../node_modules/.bin/topojson \
 		-o $@ \
 		-q 1E6 \
 		-s 1E-7 \
+		-p CONG_DIST,CONG_REP,PARTY_AFF,STATE,STATE_FIPS \
+		--id-property=+CONG_DIST \
+		-- congress=$<
+
+topo/%/congress.json: shp/%/congress.shp
+	mkdir -p $(dir $@)
+	../node_modules/.bin/topojson \
+		-o $@ \
+		-q 1E6 \
+		-s 1E-8 \
 		-p CONG_DIST,CONG_REP,PARTY_AFF,STATE,STATE_FIPS \
 		--id-property=+CONG_DIST \
 		-- congress=$<
