@@ -1,20 +1,19 @@
 # US Congressional Districts (114th)
 (scale:1m) http://nationalmap.gov/small_scale/mld/cgd114p.html
 
-![districts-screenshot](https://cloud.githubusercontent.com/assets/425966/18412803/15f923a8-7766-11e6-9007-7eb0eb58e079.png)
+![districts-screenshot](https://cloud.githubusercontent.com/assets/425966/18941059/a6380b72-85db-11e6-8a5b-5951c1999360.png)
 
-### 50 states + DC:
+### [50 states](https://en.wikipedia.org/wiki/114th_United_States_Congress)
 ```
- al ak az ar ca co ct de dc fl
- ga hi id il in ia ks ky la me
- md ma mi mn ms mo mt ne nv nh
- nj nm ny nc nd oh ok or pa ri
- sc sd tn tx ut vt va wa wv wi
- wy
+ al ak az ar ca co ct de fl ga
+ hi id il in ia ks ky la me md
+ ma mi mn ms mo mt ne nv nh nj
+ nm ny nc nd oh ok or pa ri sc
+ sd tn tx ut vt va wa wv wi wy
 ```
-### Territories with districts:
+### [6 non-voting members](https://en.wikipedia.org/wiki/114th_United_States_Congress#Non-voting_members):
 ```
- pr vi
+dc pr vi as gu mp
 ```
 
 If you need individual state files:

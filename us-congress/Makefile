@@ -1,6 +1,7 @@
 # US Congressional Districts (scale:1m) http://nationalmap.gov/small_scale/mld/cgd114p.html
 # Index: http://nationalmap.gov/small_scale/atlasftp.html
 
+# 50 states + non-voting members(DC,PR,VI,AS,GU,MP) https://en.wikipedia.org/wiki/114th_United_States_Congress#Non-voting_members
 STATES=al ak az ar ca co ct de dc fl \
 ga hi id il in ia ks ky la me \
 md ma mi mn ms mo mt ne nv nh \
@@ -8,7 +9,7 @@ nj nm ny nc nd oh ok or pa ri \
 sc sd tn tx ut vt va wa wv wi \
 wy pr vi as gu mp
 
-# 50 states + DC, PR & VI: closest thing to KeyValue pairs
+# KeyValue pairs
 al_fips=01
 ak_fips=02
 az_fips=04
