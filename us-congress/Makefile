@@ -6,7 +6,7 @@ ga hi id il in ia ks ky la me \
 md ma mi mn ms mo mt ne nv nh \
 nj nm ny nc nd oh ok or pa ri \
 sc sd tn tx ut vt va wa wv wi \
-wy pr vi
+wy pr vi as gu mp
 
 # 50 states + DC, PR & VI: closest thing to KeyValue pairs
 al_fips=01
@@ -62,6 +62,9 @@ wi_fips=55
 wy_fips=56
 pr_fips=72
 vi_fips=78
+as_fips=60
+gu_fips=66
+mp_fips=69
 
 all: topo/us/congress.json csv/us/congress.csv
 
@@ -75,7 +78,15 @@ gz/%.tar.gz:
 	curl 'ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/SmallScale/Data/Boundaries/$(notdir $@)' -o $@.download
 	mv $@.download $@
 
-shp/us/congress.shp: gz/cgd114p010g.shp.tar.gz
+
+gz/us_congressional_districts.zip:
+	mkdir -p $(dir $@)
+	curl 'https://gist.githubusercontent.com/rveciana/fe6b452c853146e674dd6dd09c1cc6e3/raw/8cbc12c12738f098cc36a8c72cb5596c74bd9206/$(notdir $@)' -o $@.download
+	mv $@.download $@
+
+## shp/us/congress.shp: gz/cgd114p010g.shp.tar.gz ## shape file from USGS that doesn't include GU, AS & MS
+
+shp/us/congress.shp: gz/us_congressional_districts.zip
 
 shp/us/%.shp:
 	rm -rf $(basename $@)
