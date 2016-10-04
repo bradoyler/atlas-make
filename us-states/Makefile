@@ -74,7 +74,16 @@ topo/us-states.json: shp/us-states.shp
 	../node_modules/.bin/topojson \
 		-o $@ \
 		-q 1E6 \
-		-s 1E-8 \
+		-s 1E-7 \
+		-p STATE,STATE_FIPS \
+		-- states=$<
+
+topo/us-states-simplified.json: shp/us-states.shp
+	mkdir -p $(dir $@)
+	../node_modules/.bin/topojson \
+		-o $@ \
+		-q 1E6 \
+		-s 1E-6 \
 		-p STATE,STATE_FIPS \
 		-- states=$<
 
