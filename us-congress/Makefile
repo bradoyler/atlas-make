@@ -68,6 +68,9 @@ all: topo/us/congress.json csv/us/congress.csv
 all-states:
 	for i in ${STATES} ; do make topo/$$i/congress.json ; done
 
+all-states-with-counties:
+	for i in ${STATES} ; do make topo/$$i/counties-congress.json ; done
+
 .SECONDARY:
 
 gz/%.tar.gz:
@@ -108,7 +111,7 @@ topo/us/congress.json: shp/us/congress.shp
 	../node_modules/.bin/topojson \
 		-o $@ \
 		-q 1E6 \
-		-s 1E-7 \
+		-s 1E-6 \
 		-p CONG_DIST,CONG_REP,PARTY_AFF,STATE,STATE_FIPS \
 		--id-property=STATE_FIPS+CONG_DIST \
 		-- congress=$<
@@ -132,6 +135,22 @@ topo/%/congress.json: shp/%/congress.shp
 		-p CONG_DIST,CONG_REP,PARTY_AFF,STATE,STATE_FIPS \
 		--id-property=+CONG_DIST \
 		-- congress=$<
+
+topo/%/counties-congress.json:
+	../node_modules/.bin/topojson \
+	 -o $@ \
+	 -- congress=topo/$*/congress.json counties=../us-counties/topo/$*/counties.json
+
+topo/%/towns-congress.json:
+	../node_modules/.bin/topojson \
+	 -o $@ \
+	 -- congress=topo/$*/congress.json towns=../us-towns/topo/$*/towns.json
+
+topo/%/countysubs-congress.json:
+	../node_modules/.bin/topojson \
+	 -o $@ \
+	 -- congress=topo/$*/congress.json countysubs=../us-towns/topo/$*/countysubs.json
+
 
 ##### clean targets ##########
 clean-all: clean/shp clean/csv clean/topo clean/geo
