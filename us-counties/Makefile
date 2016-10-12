@@ -107,6 +107,16 @@ topo/%/counties.json: shp/%/counties.shp
 		--id-property=FIPS \
 		-- counties=$<
 
+topo/us/counties.json: shp/us/counties.shp
+	mkdir -p $(dir $@)
+	../node_modules/.bin/topojson \
+		-o $@ \
+		-q 1E6 \
+		-s 1E-6 \
+		-p COUNTY,FIPS,STATE,STATE_FIPS \
+		--id-property=FIPS \
+		-- counties=$<
+
 ##### clean targets ##########
 clean-all: clean/shp clean/csv clean/topo clean/geo
 
