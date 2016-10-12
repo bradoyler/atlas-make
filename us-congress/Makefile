@@ -68,7 +68,7 @@ all: topo/us/congress.json csv/us/congress.csv
 all-states:
 	for i in ${STATES} ; do make topo/$$i/congress.json ; done
 
-all-states-with-counties:
+all-states-with-counties: all-states
 	for i in ${STATES} ; do make topo/$$i/counties-congress.json ; done
 
 .SECONDARY:
@@ -138,17 +138,17 @@ topo/%/congress.json: shp/%/congress.shp
 
 topo/%/counties-congress.json:
 	../node_modules/.bin/topojson \
-	 -o $@ \
+	 -o $@ -p \
 	 -- congress=topo/$*/congress.json counties=../us-counties/topo/$*/counties.json
 
 topo/%/towns-congress.json:
 	../node_modules/.bin/topojson \
-	 -o $@ \
+	 -o $@ -p \
 	 -- congress=topo/$*/congress.json towns=../us-towns/topo/$*/towns.json
 
 topo/%/countysubs-congress.json:
 	../node_modules/.bin/topojson \
-	 -o $@ \
+	 -o $@ -p \
 	 -- congress=topo/$*/congress.json countysubs=../us-towns/topo/$*/countysubs.json
 
 
