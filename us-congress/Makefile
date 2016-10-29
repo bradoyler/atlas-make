@@ -63,7 +63,7 @@ wy_fips=56
 pr_fips=72
 vi_fips=78
 
-all: topo/us/congress.json csv/us/congress.csv
+all: topo/us-congress.json csv/us/congress.csv
 
 all-states:
 	for i in ${STATES} ; do make topo/$$i/congress.json ; done
@@ -106,15 +106,15 @@ csv/%/congress.csv: shp/%/congress.shp
 	ogr2ogr -f 'CSV' -progress $@ $<
 
 # * notice the handy ID-prop *
-topo/us/congress.json: shp/us/congress.shp
+topo/us-congress.json: shp/us/congress.shp
 	mkdir -p $(dir $@)
 	../node_modules/.bin/topojson \
 		-o $@ \
-		-q 1E6 \
-		-s 1E-6 \
+		-q 2000000 \
+		-s 0.000006 \
 		-p CONG_DIST,CONG_REP,PARTY_AFF,STATE,STATE_FIPS \
 		--id-property=STATE_FIPS+CONG_DIST \
-		-- congress=$<
+		-- us_congress=$<
 
 topo/ak/congress.json: shp/ak/congress.shp
 	mkdir -p $(dir $@)
