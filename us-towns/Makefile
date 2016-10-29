@@ -16,7 +16,7 @@ wy
 # NewEnglandStates=ct me ma nh ri vt
 
 all:
-	for i in ${STATES} ; do make shp/$$i/countysubs.shp csv/$$i/countysubs.csv ; done
+	for i in ${STATES} ; do make shp/$$i/countysubs.shp csv/$$i\_countysubs.csv ; done
 
 .SECONDARY:
 
@@ -135,7 +135,12 @@ topo/tx/countysubs.json: shp/tx/countysubs.shp
 		-p NAME,STATEFP,COUNTYFP,COUSUBFP \
 		-- countysubs=$<
 
-csv/%/countysubs.csv: shp/%/countysubs.shp
+csv/%_countysubs.csv: shp/%/countysubs.shp
+	mkdir -p $(dir $@)
+	rm -f $@
+	ogr2ogr -f 'CSV' -select STATEFP,COUNTYFP,COUSUBFP,NAME,NAMELSAD -progress $@ $<
+
+csv/%_countysubs-full.csv: shp/%/countysubs.shp
 	mkdir -p $(dir $@)
 	rm -f $@
 	ogr2ogr -f 'CSV' -progress $@ $<
@@ -168,7 +173,7 @@ topo/ma/towns.json: geo/ma/towns.json
 		--id-property=+TOWN_ID \
 		-- towns=$<
 
-csv/ma/towns.csv: shp/ma_towns/TOWNSSURVEY_POLYM.shp
+csv/ma_towns.csv: shp/ma_towns/TOWNSSURVEY_POLYM.shp
 	mkdir -p $(dir $@)
 	rm -f $@
 	ogr2ogr -f 'CSV' -progress $@ $<
