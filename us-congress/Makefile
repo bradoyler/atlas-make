@@ -111,7 +111,7 @@ topo/us-congress.json: shp/us/congress.shp
 	../node_modules/.bin/topojson \
 		-o $@ \
 		-q 2000000 \
-		-s 0.000006 \
+		-s 0.0000009 \
 		-p CONG_DIST,CONG_REP,PARTY_AFF,STATE,STATE_FIPS \
 		--id-property=STATE_FIPS+CONG_DIST \
 		-- us_congress=$<
