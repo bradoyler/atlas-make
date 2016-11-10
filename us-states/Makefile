@@ -15,6 +15,13 @@
 # territories without counties:
 # as fm gu mh mp pw um
 
+STATES=al ak az ar ca co ct de dc fl \
+ga hi id il in ia ks ky la me \
+md ma mi mn ms mo mt ne nv nh \
+nj nm ny nc nd oh ok or pa ri \
+sc sd tn tx ut vt va wa wv wi \
+wy pr vi
+
 ## ----
 # v1: http://dds.cr.usgs.gov/pub/data/nationalatlas/statep010_nt00798.tar.gz
 # 62 polygons
@@ -64,6 +71,11 @@ shp/us-states.shp: shp/us-states-raw.shp
 	ogr2ogr -f 'ESRI Shapefile' $@ $(basename $@).json
 	rm -f -- $(basename $@).json $(basename $@).json
 
+shp/ak/state.shp: shp/us-states.shp
+	mkdir -p $(dir $@)
+	rm -f $@
+	ogr2ogr -f 'ESRI Shapefile' -where "STATE_FIPS = '02'" $@ $<
+
 geo/us-states.json: shp/us-states-raw.shp
 	mkdir -p $(dir $@)
 	rm -f $@
@@ -75,6 +87,15 @@ topo/us-states.json: shp/us-states.shp
 		-o $@ \
 		-q 1E6 \
 		-s 1E-7 \
+		-p STATE,STATE_FIPS \
+		-- states=$<
+
+topo/ak/state.json: shp/ak/state.shp
+	mkdir -p $(dir $@)
+	../node_modules/.bin/topojson \
+		-o $@ \
+		-q 1E6 \
+		-s 1E-6 \
 		-p STATE,STATE_FIPS \
 		-- states=$<
 
