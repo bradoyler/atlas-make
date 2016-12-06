@@ -142,6 +142,11 @@ topo/%/congress-114.json: shp/%/congress-114.shp
 		--id-property=GEOID \
 		-- districts=$<
 
+topo/us-congress-115-states.json:
+	../node_modules/.bin/topojson \
+		-o $@ -p \
+		-- districts=topo/us-congress-115.json states=../us-states/topo/us-states.json
+
 ##### clean targets ##########
 clean-all: clean/shp clean/topo
 
