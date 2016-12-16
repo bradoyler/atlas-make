@@ -35,6 +35,11 @@ shp/us/cities-over-150k.shp: shp/us/cities.shp
 	rm -f $@
 	ogr2ogr -f 'ESRI Shapefile' -where "POP_2010 > 150000 OR FEATURE2 Like '%Capital%'" $@ $<
 
+shp/us/major-cities.shp: shp/us/cities.shp
+	mkdir -p $(dir $@)
+	rm -f $@
+	ogr2ogr -f 'ESRI Shapefile' -where "POP_2010 > 750000" $@ $<
+
 shp/us/cities-over-100k.shp: shp/us/cities.shp
 	mkdir -p $(dir $@)
 	rm -f $@
@@ -191,6 +196,15 @@ topo/us-cities-projected.json: shp/us/cities-over-150k.shp
 		-- cities=$<
 
 topo/us-cities.json: geo/cities-all.json
+	../node_modules/.bin/topojson \
+		-o $@ \
+		--no-pre-quantization \
+		--post-quantization=1e6 \
+		--simplify=7e-7 \
+		-p NAME,STATE,LATITUDE,LONGITUDE,POP_2010 \
+		-- cities=$<
+
+topo/us-major-cities.json: shp/us/major-cities.shp
 	../node_modules/.bin/topojson \
 		-o $@ \
 		--no-pre-quantization \
