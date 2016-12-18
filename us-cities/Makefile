@@ -38,7 +38,7 @@ shp/us/cities-over-150k.shp: shp/us/cities.shp
 shp/us/major-cities.shp: shp/us/cities.shp
 	mkdir -p $(dir $@)
 	rm -f $@
-	ogr2ogr -f 'ESRI Shapefile' -where "POP_2010 > 750000" $@ $<
+	ogr2ogr -f 'ESRI Shapefile' -where "POP_2010 > 600000" $@ $<
 
 shp/us/cities-over-100k.shp: shp/us/cities.shp
 	mkdir -p $(dir $@)
