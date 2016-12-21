@@ -1,6 +1,6 @@
 # Atlas-make - master makefile
 
-TARGETS=na-places us-demographics us-towns us-cities us-states us-counties us-transportation us-congress us-congress-census world-countries
+TARGETS=na-places us-demographics us-energy us-towns us-cities us-states us-counties us-transportation us-congress us-congress-census world-countries
 
 all: ${TARGETS}
 
@@ -22,6 +22,9 @@ us-cities:
 	cd $@ && make all
 
 us-demographics:
+	cd $@ && make all
+
+us-energy:
 	cd $@ && make all
 
 us-demographics/csv:
@@ -58,3 +61,4 @@ clean-all:
 	cd us-congress && make clean-all
 	cd us-congress-census && make clean-all
 	cd world-countries && make clean-all
+	cd us-energy && make clean-all

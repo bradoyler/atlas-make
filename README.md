@@ -40,6 +40,8 @@ this may take about 15mins, so try `$ make us-states` first
 
 [`$ make us-transportation`](us-transportation)
 
+[`$ make us-energy`](us-energy)
+
 [`$ make us-congress`](us-congress)
 
 
