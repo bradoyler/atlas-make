@@ -1,7 +1,7 @@
 # Index of EIA.gov shape files: https://www.eia.gov/maps/layer_info-m.php
 # Index of PHMSA http://www.phmsa.dot.gov/pipeline/library/data-stats/flagged-data-files
 
-all: shp/CrudeOil_Pipelines_US_EIA.shp shp/PetroleumProduct_Pipelines_US_EIA.shp csv/PHMSA
+all: shp/CrudeOil_Pipelines_US_EIA.shp shp/PetroleumProduct_Pipelines_US_EIA.shp csv/PHMSA_Pipeline/files
 
 zip/eia/%.zip:
 	mkdir -p $(dir $@)
@@ -20,11 +20,17 @@ zip/PHMSA_Pipeline_Safety_Flagged_Incidents.zip:
 	curl 'http://www.phmsa.dot.gov/staticfiles/PHMSA/DownloadableFiles/Pipeline/PHMSA_Pipeline_Safety_Flagged_Incidents.zip' -o $@.download
 	mv $@.download $@
 
-csv/PHMSA:
+zip/annual_hazardous_liquid_2010_present.zip:
+	mkdir -p $(dir $@)
+	curl 'http://phmsa.dot.gov/staticfiles/PHMSA/DownloadableFiles/Pipeline2data/annual_hazardous_liquid_2010_present.zip' -o $@.download
+	mv $@.download $@
+
+csv/%/files:
 	mkdir -p $(dir $@)
 	unzip -o $< -d $(dir $@)
 
-csv/PHMSA: zip/PHMSA_Pipeline_Safety_Flagged_Incidents.zip
+csv/PHMSA_Pipeline/files: zip/PHMSA_Pipeline_Safety_Flagged_Incidents.zip
+csv/PHMSA_Pipeline2data/files: zip/annual_hazardous_liquid_2010_present.zip
 shp/CrudeOil_Pipelines_US_EIA.shp: zip/eia/CrudeOil_Pipelines_US_EIA.zip
 shp/CrudeOil_RailTerminals_US_EIA.shp: zip/eia/CrudeOil_RailTerminals_US_EIA.zip
 shp/PetroleumProduct_Pipelines_US_EIA.shp: zip/eia/PetroleumProduct_Pipelines_US_EIA.zip
