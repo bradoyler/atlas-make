@@ -14,3 +14,7 @@ City classifications, by state:
 - over 30k (VT)
 - over 50k (DE, ME, WV, WY)
 - over 150k (all other states)
+
+sources:
+- https://nationalmap.gov/small_scale/atlasftp.html
+- https://nationalmap.gov/small_scale/mld/1cities.html

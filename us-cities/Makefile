@@ -1,12 +1,12 @@
 # National Atlas
-# http://www.nationalatlas.gov/atlasftp-1m.html
+# https://nationalmap.gov/small_scale/atlasftp.html
 
 # DE, ME, VT, WV & WY do not have cities with populations over 100k
 
 # territories:
 # pr vi as fm gu mh mp pw um
 
-all: all-states geo/cities-all.json geo/us/capitals.json svg/us-cities.svg
+all: all-states geo/cities-all.json geo/us/capitals.json svg/us-cities.svg csv/us/cities-over-250k.csv
 
 STATES=al ak az ar ca co ct de dc fl ga hi id il in ia ks ky la me md ma mi mn ms mo mt ne nv nh nj nm ny nc nd oh ok or pa ri sc sd tn tx ut vt va wa wv wi wy
 all-states:
@@ -29,6 +29,11 @@ shp/us/%.shp:
 	tar -xzm -C $(basename $@) -f $<
 	for file in $(basename $@)/*; do chmod 644 $$file; mv $$file $(basename $@).$${file##*.}; done
 	rmdir $(basename $@)
+
+shp/us/cities-over-250k.shp: shp/us/cities.shp
+	mkdir -p $(dir $@)
+	rm -f $@
+	ogr2ogr -f 'ESRI Shapefile' -where "POP_2010 > 250000" $@ $<
 
 shp/us/cities-over-150k.shp: shp/us/cities.shp
 	mkdir -p $(dir $@)
@@ -214,6 +219,11 @@ topo/us-major-cities.json: shp/us/major-cities.shp
 		-- cities=$<
 
 ### misc target ###
+
+csv/%.csv: shp/%.shp
+	mkdir -p $(dir $@)
+	rm -f $@
+	ogr2ogr -f 'CSV' -select 'NAME,STATE,LATITUDE,LONGITUDE,POP_2010' -progress $@ $<
 
 svg/us-cities.svg: topo/us-cities-projected.json
 	mkdir -p $(dir $@)
