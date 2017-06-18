@@ -5,7 +5,7 @@ all: csv/na-places.csv csv/us-places.csv geo/us-places.json svg/us-places.svg
 
 gz/%.tar.gz:
 	mkdir -p $(dir $@)
-	curl 'http://dds.cr.usgs.gov/pub/data/nationalatlas/$(notdir $@)' -o $@.download
+	curl -L 'http://dds.cr.usgs.gov/pub/data/nationalatlas/$(notdir $@)' -o $@.download
 	mv $@.download $@
 
 shp/%.shp:

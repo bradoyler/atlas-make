@@ -12,12 +12,12 @@ all-csv: csv/acs-2014/counties csv/acs-2014/states csv/census-2010/states.csv cs
 
 gz/census-2010/%.zip:
 	mkdir -p $(dir $@)
-	curl 'http://www2.census.gov/geo/tiger/TIGER2010DP1/$(notdir $@)' -o $@.download
+	curl -L 'http://www2.census.gov/geo/tiger/TIGER2010DP1/$(notdir $@)' -o $@.download
 	mv $@.download $@
 
 gz/acs-2014/%.zip:
 	mkdir -p $(dir $@)
-	curl 'http://www2.census.gov/geo/tiger/TIGER_DP/2014ACS/$(notdir $@)' -o $@.download
+	curl -L 'http://www2.census.gov/geo/tiger/TIGER_DP/2014ACS/$(notdir $@)' -o $@.download
 	mv $@.download $@
 
 shp/acs-2014_states.shp: gz/acs-2014/ACS_2014_5YR_STATE.gdb.zip

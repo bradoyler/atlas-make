@@ -73,13 +73,13 @@ all-states:
 # 114th Congress
 gz/tl_2015_us_cd114.zip:
 	mkdir -p $(dir $@)
-	curl 'ftp://ftp2.census.gov/geo/tiger/TIGER2015/CD/tl_2015_us_cd114.zip' -o $@.download
+	curl -L 'ftp://ftp2.census.gov/geo/tiger/TIGER2015/CD/tl_2015_us_cd114.zip' -o $@.download
 	mv $@.download $@
 
 # 115th Congress
 gz/tl_2016_us_cd115.zip:
 	mkdir -p $(dir $@)
-	curl 'ftp://ftp2.census.gov/geo/tiger/TIGER2016/CD/tl_2016_us_cd115.zip' -o $@.download
+	curl -L 'ftp://ftp2.census.gov/geo/tiger/TIGER2016/CD/tl_2016_us_cd115.zip' -o $@.download
 	mv $@.download $@
 
 shp/us/congress-114.shp: gz/tl_2015_us_cd114.zip

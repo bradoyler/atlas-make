@@ -75,7 +75,7 @@ all-states-with-counties: all-states
 
 gz/%.tar.gz:
 	mkdir -p $(dir $@)
-	curl 'ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/SmallScale/Data/Boundaries/$(notdir $@)' -o $@.download
+	curl -L 'ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/SmallScale/Data/Boundaries/$(notdir $@)' -o $@.download
 	mv $@.download $@
 
 shp/us/congress.shp: gz/cgd114p010g.shp.tar.gz

@@ -45,7 +45,7 @@ all: topo/us-states.json csv/us-states.csv
 
 gz/%.tar.gz:
 	mkdir -p $(dir $@)
-	curl 'http://dds.cr.usgs.gov/pub/data/nationalatlas/$(notdir $@)' -o $@.download
+	curl -L 'http://dds.cr.usgs.gov/pub/data/nationalatlas/$(notdir $@)' -o $@.download
 	mv $@.download $@
 
 # shp/us-states-raw.shp: gz/statesp010g.shp_nt00938.tar.gz

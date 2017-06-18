@@ -27,7 +27,7 @@ all-topo:
 ### County Subs (census.gov) ###
 gz/tl_2013_%_cousub.zip:
 	mkdir -p $(dir $@)
-	curl 'http://www2.census.gov/geo/tiger/TIGER2013/COUSUB/$(notdir $@)' -o $@.download
+	curl -L 'http://www2.census.gov/geo/tiger/TIGER2013/COUSUB/$(notdir $@)' -o $@.download
 	mv $@.download $@
 
 shp/%/countysubs.shp:

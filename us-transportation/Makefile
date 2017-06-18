@@ -7,7 +7,7 @@ all: csv/us-airports-major.csv svg/us-airports.svg csv/us-railroads-50mi.csv geo
 
 gz/%.tar.gz:
 	mkdir -p $(dir $@)
-	curl 'http://dds.cr.usgs.gov/pub/data/nationalatlas/$(notdir $@)' -o $@.download
+	curl -L 'http://dds.cr.usgs.gov/pub/data/nationalatlas/$(notdir $@)' -o $@.download
 	mv $@.download $@
 
 shp/%.shp:

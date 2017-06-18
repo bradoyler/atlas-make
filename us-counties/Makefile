@@ -45,7 +45,7 @@ all-topo:
 
 gz/%.tar.gz:
 	mkdir -p $(dir $@)
-	curl 'http://dds.cr.usgs.gov/pub/data/nationalatlas/$(notdir $@)' -o $@.download
+	curl -L 'http://dds.cr.usgs.gov/pub/data/nationalatlas/$(notdir $@)' -o $@.download
 	mv $@.download $@
 
 shp/us/counties-raw.shp: gz/countyp010_nt00795.tar.gz

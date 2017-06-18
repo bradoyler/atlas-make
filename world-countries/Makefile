@@ -9,17 +9,17 @@ all: topo/world-110m.json csv/world-countries.csv
 
 gz/ne_10m_%.zip:
 	mkdir -p $(dir $@)
-	curl "$(NATURAL_EARTH_CDN)/10m/cultural/ne_10m_$*.zip" -o $@.download
+	curl -L "$(NATURAL_EARTH_CDN)/10m/cultural/ne_10m_$*.zip" -o $@.download
 	mv $@.download $@
 
 gz/ne_50m_%.zip:
 	mkdir -p $(dir $@)
-	curl "$(NATURAL_EARTH_CDN)/50m/cultural/ne_50m_$*.zip" -o $@.download
+	curl -L "$(NATURAL_EARTH_CDN)/50m/cultural/ne_50m_$*.zip" -o $@.download
 	mv $@.download $@
 
 gz/ne_110m_%.zip:
 	mkdir -p $(dir $@)
-	curl "$(NATURAL_EARTH_CDN)/110m/cultural/ne_110m_$*.zip" -o $@.download
+	curl -L "$(NATURAL_EARTH_CDN)/110m/cultural/ne_110m_$*.zip" -o $@.download
 	mv $@.download $@
 
 # Admin 0 – countries (5.08M)
