@@ -16,7 +16,7 @@ STATES_OVER_50k=hi me nh nd sc vt wv wy vi pr
 
 gz/%.tar.gz:
 	mkdir -p $(dir $@)
-	curl 'http://dds.cr.usgs.gov/pub/data/nationalatlas/$(notdir $@)' -o $@.download
+	curl -L 'http://dds.cr.usgs.gov/pub/data/nationalatlas/$(notdir $@)' -o $@.download
 	mv $@.download $@
 
 shp/us/cities-raw.shp: gz/citiesx020_nt00007.tar.gz
