@@ -2,9 +2,9 @@
 
 TARGETS=na-places us-demographics us-energy us-towns us-cities us-states us-counties us-transportation us-congress us-congress-census world-countries
 
-all: ${TARGETS}
+.PHONY: all clean-all ${TARGETS}
 
-.PHONY: ${TARGETS}
+all: ${TARGETS}
 
 world-countries:
 	cd $@ && make all
