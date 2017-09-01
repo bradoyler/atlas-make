@@ -1,7 +1,7 @@
 # Map layers for US transportation.
 # Index: http://nationalmap.gov/small_scale/atlasftp.html
 
-all: csv/us-airports-major.csv svg/us-airports.svg csv/us-railroads-50mi.csv geo/us-roads-interstate.json
+all: csv/us-airports-major.csv svg/us-airports.svg csv/us-railroads-50mi.csv geo/us-roads-interstate.json topo/us-airports-major.json
 
 .SECONDARY:
 
@@ -49,6 +49,15 @@ geo/us-roads-interstate.json: shp/us-roads.shp
 	-lco COORDINATE_PRECISION=1 \
 	-where "FCODE = '10'" $@ $<
 
+topo/us-airports-major.json: geo/us-airports-major.json
+		mkdir -p $(dir $@)
+		../node_modules/.bin/topojson \
+			-o $@ \
+			--no-pre-quantization \
+			--post-quantization=1e6 \
+			--simplify=7e-7 \
+			--id-property=IATA \
+			-- airports=$<
 
 topo/us-airports-projected.json: geo/us-airports.json
 	mkdir -p $(dir $@)
@@ -58,8 +67,8 @@ topo/us-airports-projected.json: geo/us-airports.json
 		--projection 'd3.geo.albersUsa()' \
 		--post-quantization=1e6 \
 		--simplify=7e-7 \
-		-p NAME,COUNTRY \
-		-- places=$<
+		-p IATA,NAME \
+		-- airports=$<
 
 svg/us-airports.svg: topo/us-airports-projected.json
 	mkdir -p $(dir $@)
