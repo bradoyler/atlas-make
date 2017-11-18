@@ -1,8 +1,8 @@
 {
-  "name": "atlas-make",
-  "version": "0.0.1",
-  "description": "A handy set of makefiles & recipes for building map related data files",
-  "license": "MIT",
+	"name": "atlas-make",
+	"version": "0.0.1",
+	"description": "A handy set of makefiles & recipes for building map related data files",
+	"license": "MIT",
 	"repository": {
 		"type": "git",
 		"url": "http://github.com/bradoyler/us-cities.git"
@@ -18,6 +18,6 @@
 		"maps"
 	],
 	"dependencies": {
-    "topojson": "1.6.26"
-  }
+		"topojson": "1.6.26"
+	}
 }

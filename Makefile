@@ -1,12 +1,16 @@
 # Atlas-make - master makefile
 
-TARGETS=na-places us-demographics us-energy us-towns us-cities us-states us-counties us-transportation us-congress us-congress-census world-countries
+TARGETS=na-places us-demographics us-energy us-towns us-cities us-states us-counties \
+ us-transportation us-congress us-congress-census world-places world-countries
 
 .PHONY: all clean-all ${TARGETS}
 
 all: ${TARGETS}
 
 world-countries:
+	cd $@ && make all
+
+world-places:
 	cd $@ && make all
 
 na-places:
@@ -61,4 +65,5 @@ clean-all:
 	cd us-congress && make clean-all
 	cd us-congress-census && make clean-all
 	cd world-countries && make clean-all
+	cd world-places && make clean-all
 	cd us-energy && make clean-all

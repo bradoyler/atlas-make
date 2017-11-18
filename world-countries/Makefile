@@ -3,7 +3,7 @@
 BIN = ../node_modules/.bin
 NATURAL_EARTH_CDN = http://naciscdn.org/naturalearth
 
-all: topo/world-110m.json csv/world-countries.csv
+all: topo/world-110m.json csv/world-countries-110m.csv geo/world-countries-110m.json
 
 .SECONDARY:
 
@@ -42,7 +42,12 @@ topo/world-%.json: shp/ne_%_admin_0_countries.shp
 			--oo=land \
 			--no-key
 
-csv/world-countries.csv: shp/ne_110m_admin_0_countries.shp
+geo/world-countries-110m.json: shp/ne_110m_admin_0_countries.shp
+	mkdir -p $(dir $@)
+	rm -f $@
+	ogr2ogr -f 'GeoJSON' $@ $<
+
+csv/world-countries-110m.csv: shp/ne_110m_admin_0_countries.shp
 	mkdir -p $(dir $@)
 	rm -f $@
 	ogr2ogr -f 'CSV' -progress $@ $<
